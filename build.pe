@@ -1,0 +1,38 @@
+#!/usr/local/bin/fontforge
+
+#######################################################################################
+# FontForge script for building Caeciliae font files
+#######################################################################################
+
+Save();
+
+# Process all glyphs, removing references, eliminating overlap, etc.
+SelectAll();
+UnlinkReference();
+RemoveOverlap();
+Simplify();
+AddExtrema();
+
+#Change the font name settings
+SetFontNames("Caeciliae-Regular", "Caeciliae", "Caeciliae Regular", "Regular");
+
+Generate($curfont:r + "-Regular.ttf", "", 0x80);
+Revert();
+
+# Now do it again, this time eliminating the staff character
+# in order to create the unstaffed version
+Select("staff");
+Cut();
+
+# Process all glyphs, removing references, eliminating overlap, etc.
+SelectAll();
+UnlinkReference();
+RemoveOverlap();
+Simplify();
+AddExtrema();
+
+#Change the font name settings
+SetFontNames("Caeciliae-Staffless", "Caeciliae Staffless", "Caeciliae Staffless", "Regular");
+
+Generate($curfont:r + "-Staffless.ttf", "", 0x80);
+Revert();
