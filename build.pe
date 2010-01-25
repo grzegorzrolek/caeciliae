@@ -19,10 +19,12 @@ SetFontNames("Caeciliae-Regular", "Caeciliae", "Caeciliae Regular", "Regular");
 Generate($curfont:r + "-Regular.ttf", "", 0x80);
 Revert();
 
-# Now do it again, this time eliminating the staff character
+# Now do it again, this time eliminating the staff characters
 # in order to create the unstaffed version
 Select("staff");
-Cut();
+Clear();
+Select("staffext");
+Clear();
 
 # Process all glyphs, removing references, eliminating overlap, etc.
 SelectAll();
@@ -35,4 +37,30 @@ AddExtrema();
 SetFontNames("Caeciliae-Staffless", "Caeciliae Staffless", "Caeciliae Staffless", "Regular");
 
 Generate($curfont:r + "-Staffless.ttf", "", 0x80);
+Revert();
+
+# Now do it again, this time substituting the bold staff glyphs
+# for the staff glyphs
+Select("boldstaff");
+Copy();
+Select("staff");
+Paste();
+
+Select("boldstaffext");
+Copy();
+Select("staffext");
+Paste();
+
+
+# Process all glyphs, removing references, eliminating overlap, etc.
+SelectAll();
+UnlinkReference();
+RemoveOverlap();
+Simplify();
+AddExtrema();
+
+#Change the font name settings
+SetFontNames("Caeciliae-Boldstaff", "Caeciliae Boldstaff", "Caeciliae Boldstaff", "Regular");
+
+Generate($curfont:r + "-Boldstaff.ttf", "", 0x80);
 Revert();
